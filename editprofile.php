@@ -16,10 +16,10 @@
         $userData->image = "user.png";
     }
 ?>
-    <div id="main-container" class="container-fluid">
+    <div id="main-container" class="container-fluid edit-profile-page">
         <div class="col-md-12">
             <form action="<?= $BASE_URL ?>user_process.php" method="POST" enctype="multipart/form-data">
-                <input type="hidden" name="type" value"update">
+                <input type="hidden" name="type" value="update">
                  <div class="row">
                     <div class="col-md-4">
                         <h1><?= $fullName ?></h1>
@@ -28,17 +28,14 @@
                             <label for="name">Nome:</label>
                             <input type="text" class="form-control" id="name" name="name" placeholder="Digite o seu nome" value="<?= $userData->name ?>">
                         </div>
-
-                        <input type="text" class="btn form-btn" value="Alterar">
-
-
                         <div class="form-group">
                             <label for="email">Email:</label>
                             <input type="text" readonly class="form-control disabled" id="email" name="email" placeholder="Digite o seu emai" value="<?= $userData->email ?>">
                         </div>
+                        <input type="submit" class="btn card-btn" value="Alterar">
                     </div>
                     <div class="col-md-4">
-                        <div id="profile-image-container" style="background-image: url('<?= $BASE_URL?>img/usuario/<?= $userData->image ?>')"></div>
+                        <div id="profile-image-container" style="background-image: url('<?= $BASE_URL?>img/user/<?= $userData->image ?>')"></div>
                         <div class="form-group">
                             <label for="image">Foto:</label>
                             <input type="file" class="form-control-file" name="image">
@@ -51,6 +48,25 @@
 
                  </div>
             </form>
+            <div class="rwo" id="change-password-container">
+                <div class="col-md-4">
+                <h2>Alterar a senha:</h2>
+                  <p class="page-description">Digite a nova senha e confirme, para alterar sua senha:
+                  </p>
+                  <form action="<?= $BASE_URL ?>user_process.php" method="POST">
+                    <input type="hidden" name="type" value="changepassword">
+                    <div class="form-group">
+                        <label for="password">Senha:</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Digite a sua nova senha">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmpassword">Confirmação de senha:</label>
+                        <input type="password" class="form-control" id="confirmpassword" name="confirmpassword" placeholder="Confirme a sua nova senha">
+                    </div>
+                    <input type="submit" class="btn card-btn" value="Alterar Senha">
+                  </form>
+                </div>
+            </div>
         </div>
     </div>
 

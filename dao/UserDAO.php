@@ -23,7 +23,8 @@ class UserDAO implements UserDAOInterface {
         $user->email = $data["usu_email"];
         $user->password = $data["usu_senha"];
         $user->image = $data["usu_imagem"];
-        $user->bio = $data["usu_token"];
+        $user->bio = $data["usu_bio"];
+        $user->token = $data["usu_token"];
 
         return $user;
 
@@ -53,7 +54,7 @@ class UserDAO implements UserDAOInterface {
         $stmt = $this->conn->prepare("UPDATE usuario SET
             usu_nome = :name,
             usu_email = :email,
-            usu_imagem = :imagem,
+            usu_imagem = :image,
             usu_bio = :bio,
             usu_token = :token
             WHERE usu_cod = :id
@@ -61,7 +62,7 @@ class UserDAO implements UserDAOInterface {
 
         $stmt->bindParam(":name", $user->name);
         $stmt->bindParam(":email", $user->email);
-        $stmt->bindParam(":imagem", $user->image);
+        $stmt->bindParam(":image", $user->image);
         $stmt->bindParam(":bio", $user->bio);
         $stmt->bindParam(":token", $user->token);
         $stmt->bindParam(":id", $user->id);
@@ -75,7 +76,7 @@ class UserDAO implements UserDAOInterface {
     
     }
     public function verifyToken($protected = false){
-        if($_SESSION["token"]){
+        if(isset($_SESSION["token"])){
             //Pega o token da session
             $token = $_SESSION["token"];
 
@@ -189,6 +190,17 @@ class UserDAO implements UserDAOInterface {
     }
     
     public function changePassoword(User $user){
+        $stmt = $this->conn->prepare("UPDATE usuario SET 
+        usu_senha = :password
+        WHERE usu_cod = :id");
 
+        $stmt->bindParam(":password", $user->password);
+        $stmt->bindParam(":id", $user->id);
+
+        $stmt->execute();
+
+        //Redirecionar e apresentar a mensagem com sucesso
+        $this->message->setMessage("Senha alterada com sucesso!", "success", "editprofile.php");
     }
 }
+
