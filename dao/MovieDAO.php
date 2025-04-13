@@ -41,11 +41,47 @@
 
         }
 
-        public function getLatesMovies(){
+        public function getLatestMovies(){
+          
+            $movies = [];
+
+            $stmt = $this->conn->query("SELECT * FROM filme ORDER BY fil_cod DESC");
+
+            $stmt->execute();
+
+            if($stmt->rowCount()> 0){
+                $moviesArray = $stmt->fetchAll();
+
+                foreach($moviesArray as $movie){
+                    $movies[] = $this->buildMovie($movie);
+                }
+            }
+
+            return $movies;
 
         }
 
         public function getMoviesByCategory($category){
+
+            $movies = [];
+
+            $stmt = $this->conn->prepare("SELECT * FROM filme 
+                                          WHERE fil_categoria = :category
+                                          ORDER BY fil_cod DESC");
+            
+            $stmt->bindParam(":category", $category);
+
+            $stmt->execute();
+
+            if($stmt->rowCount()> 0){
+                $moviesArray = $stmt->fetchAll();
+
+                foreach($moviesArray as $movie){
+                    $movies[] = $this->buildMovie($movie);
+                }
+            }
+
+            return $movies;
 
         }
 
